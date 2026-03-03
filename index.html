@@ -1,0 +1,33 @@
+<!--
+  vBoD V2A - Open this file in a browser (when served by Vercel or vercel dev)
+
+  Required environment variables (set in Vercel project settings or local env):
+  - VBOD_PASSWORD: demo login password checked by /api/login
+  - AUTH_SECRET: secret used to sign session tokens
+
+  Local development with Vercel CLI:
+  1) Install CLI: npm i -g vercel
+  2) Set env vars locally: vercel env add VBOD_PASSWORD development
+                             vercel env add AUTH_SECRET development
+  3) Run: vercel dev
+  4) Open the local URL shown by Vercel CLI
+
+  Deploy to production:
+  - vercel --prod
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>vBoD V2A</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+    <div id="app"></div>
+    <script src="app.js"></script>
+</body>
+
+</html>
