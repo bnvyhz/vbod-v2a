@@ -1,0 +1,46 @@
+{
+    "site": {
+        "brandTitle": "Virtual Board of Directors",
+        "subtitle": "Internal Governance Prototype"
+    },
+    "members": [
+        {
+            "name": "Name 1",
+            "title": "Finance Director",
+            "subsystem": "Finance",
+            "mission": "Protect cash flow and capital discipline.",
+            "keyMetrics": [
+                "Free cash flow",
+                "Runway",
+                "Gross margin"
+            ],
+            "keyQuestions": [
+                "What could break our cash plan?",
+                "What do we stop doing?"
+            ],
+            "connectsTo": [
+                "Sales",
+                "Operations"
+            ]
+        },
+        {
+            "name": "Name 2",
+            "title": "Revenue Director",
+            "subsystem": "Sales",
+            "mission": "Grow revenue with repeatable pipelines.",
+            "keyMetrics": [
+                "Pipeline",
+                "Conversion rate",
+                "Retention"
+            ],
+            "keyQuestions": [
+                "Where are deals stalling?",
+                "What is our best channel?"
+            ],
+            "connectsTo": [
+                "Finance",
+                "Marketing"
+            ]
+        }
+    ]
+}
