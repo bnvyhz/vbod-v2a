@@ -20,6 +20,24 @@ body {
     color: var(--ink);
 }
 
+body {
+  background-image: url("/assets/watermark.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 600px auto;
+  background-attachment: fixed;
+}
+
+/* Makes the watermark faint */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(255,255,255,0.92);
+  pointer-events: none;
+  z-index: -1;
+}
+
 button,
 input {
     font: inherit;
@@ -215,4 +233,5 @@ input {
         border-right: none;
         border-bottom: 1px solid var(--border);
     }
+
 }
