@@ -24,16 +24,16 @@ body {
   background-image: url("/assets/watermark.png");
   background-repeat: no-repeat;
   background-position: center;
-  background-size: 600px auto;
+  background-size: 700px auto;
   background-attachment: fixed;
 }
 
-/* Makes the watermark faint */
+/* White overlay so text stays readable while watermark shows */
 body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background: rgba(255,255,255,0.92);
+  background: rgba(255, 255, 255, 0.92);
   pointer-events: none;
   z-index: -1;
 }
@@ -235,3 +235,4 @@ input {
     }
 
 }
+
