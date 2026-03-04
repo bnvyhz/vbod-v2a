@@ -202,6 +202,12 @@
                     renderLogin('Could not load board data. Please try again.');
                 }
             });
+        // After fetching board JSON:
+            document.getElementById("brandTitle").textContent = data.site.brandTitle;
+            document.getElementById("subtitle").textContent = data.site.subtitle;
+
+            // And use:
+            var members = data.members;
     }
 
     function init() {
@@ -228,3 +234,4 @@
 
     init();
 }());
+
