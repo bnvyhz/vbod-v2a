@@ -7,9 +7,9 @@ var auth = require("./_auth");
 module.exports = function (req, res) {
   // 1) Check authentication
   var session = auth.getCookie(req, "vbod_session");
-  var ok = auth.verifyToken(session, process.env.AUTH_SECRET);
+  var verification = auth.verifyToken(session, process.env.AUTH_SECRET);
 
-  if (!ok) {
+  if (!verification.valid) {
     res.statusCode = 401;
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify({ error: "Unauthorized" }));
