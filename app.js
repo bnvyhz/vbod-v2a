@@ -21,16 +21,6 @@
             'Added an Admin Editor page to update board members directly from the website.'
         ],
         files: ['api/board.js', 'api/admin-board.js', 'app.js', 'index.html', 'style.css']
-
-    var releaseNotes = {
-        version: '2026-03-04 21:35 UTC',
-        completedAt: '2026-03-04 21:35 UTC',
-        summary: [
-            'Fixed board API authorization to correctly reject invalid sessions.',
-            'Fixed dashboard loading so site title/subtitle updates happen safely.',
-            'Added this Updates tab so learners can quickly verify recent changes.'
-        ],
-        files: ['api/board.js', 'app.js', 'index.html', 'style.css']
     };
 
     function escapeHtml(text) {
@@ -127,7 +117,6 @@
             '<button id="adminBtn" class="admin-btn" type="button">Admin Editor</button>' +
             '<button id="logoutBtn" class="logout-btn" type="button">Logout</button>' +
             '</div>' +
-            '<button id="logoutBtn" class="logout-btn" type="button">Logout</button>' +
             '</header>' +
             '<div class="layout">' +
             '<aside class="sidebar">' +
@@ -323,7 +312,10 @@
             })
                 .then(function (res) {
                     if (!res.ok) {
-                        throw new Error('Failed to save board updates.');
+                        return res.json().then(function (payload) {
+                            var msg = payload && payload.error ? payload.error : 'Failed to save board updates.';
+                            throw new Error(msg);
+                        });
                     }
                     return res.json();
                 })
@@ -331,8 +323,9 @@
                     boardMembers = boardData.members || [];
                     renderAdminEditor('', 'Saved! Board updates are now live.');
                 })
-                .catch(function () {
-                    renderAdminEditor('Save failed. Please try again.');
+                .catch(function (err) {
+                    var message = err && err.message ? err.message : 'Save failed. Please try again.';
+                    renderAdminEditor(message);
                 });
         };
     }
