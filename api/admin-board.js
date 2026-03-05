@@ -49,6 +49,6 @@ module.exports = function handler(req, res) {
     } catch (err) {
         res.statusCode = 500;
         res.setHeader('Content-Type', 'application/json');
-        res.end(JSON.stringify({ error: 'Failed to save board.json', details: String(err && err.message ? err.message : err) }));
+        res.end(JSON.stringify({ error: 'Failed to save board.json' }));
     }
 };

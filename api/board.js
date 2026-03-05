@@ -5,26 +5,11 @@ var auth = require("./_auth");
 
 // Reads board data from /data/board.json and only returns it if logged in.
 module.exports = function (req, res) {
-  if (req.method !== "GET") {
-    res.statusCode = 405;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ error: "Method not allowed" }));
-    return;
-  }
-
-  var secret = process.env.AUTH_SECRET;
-  if (!secret) {
-    res.statusCode = 500;
-    res.setHeader("Content-Type", "application/json");
-    res.end(JSON.stringify({ error: "AUTH_SECRET is missing" }));
-    return;
-  }
-
   // 1) Check authentication
   var session = auth.getCookie(req, "vbod_session");
-  var verification = auth.verifyToken(session, secret);
+  var verification = auth.verifyToken(session, process.env.AUTH_SECRET);
 
-  if (!verification || !verification.valid) {
+  if (!verification.valid) {
     res.statusCode = 401;
     res.setHeader("Content-Type", "application/json");
     res.end(JSON.stringify({ error: "Unauthorized" }));
