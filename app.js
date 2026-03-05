@@ -11,6 +11,17 @@
     var selectedIndex = 0;
     var boardMembers = [];
 
+    var releaseNotes = {
+        version: '2026-03-04 21:35 UTC',
+        completedAt: '2026-03-04 21:35 UTC',
+        summary: [
+            'Fixed board API authorization to correctly reject invalid sessions.',
+            'Fixed dashboard loading so site title/subtitle updates happen safely.',
+            'Added this Updates tab so learners can quickly verify recent changes.'
+        ],
+        files: ['api/board.js', 'app.js', 'index.html', 'style.css']
+    };
+
     function escapeHtml(text) {
         return String(text)
             .replace(/&/g, '&amp;')
@@ -186,8 +197,17 @@
                 return res.json();
             })
             .then(function (data) {
+                var site = data.site || {};
+
                 boardMembers = data.members || [];
                 selectedIndex = 0;
+
+                if (site.brandTitle) {
+                    document.getElementById('brandTitle').textContent = site.brandTitle;
+                }
+                if (site.subtitle) {
+                    document.getElementById('subtitle').textContent = site.subtitle;
+                }
 
                 if (!boardMembers.length) {
                     throw new Error('No board data found');
@@ -202,15 +222,51 @@
                     renderLogin('Could not load board data. Please try again.');
                 }
             });
-        // After fetching board JSON:
-            document.getElementById("brandTitle").textContent = data.site.brandTitle;
-            document.getElementById("subtitle").textContent = data.site.subtitle;
+    }
 
-            // And use:
-            var members = data.members;
+
+    function renderReleaseNotes() {
+        var toggle = document.getElementById('releaseNotesToggle');
+        var panel = document.getElementById('releaseNotesPanel');
+        var i;
+        var summaryHtml = '';
+        var filesHtml = '';
+
+        if (!toggle || !panel) {
+            return;
+        }
+
+        for (i = 0; i < releaseNotes.summary.length; i++) {
+            summaryHtml += '<li>' + escapeHtml(releaseNotes.summary[i]) + '</li>';
+        }
+
+        for (i = 0; i < releaseNotes.files.length; i++) {
+            filesHtml += '<li><code>' + escapeHtml(releaseNotes.files[i]) + '</code></li>';
+        }
+
+        panel.innerHTML =
+            '<h2>Latest Update</h2>' +
+            '<p class="release-version"><strong>Version:</strong> ' + escapeHtml(releaseNotes.version) + '</p>' +
+            '<p class="release-version"><strong>Completed:</strong> ' + escapeHtml(releaseNotes.completedAt) + '</p>' +
+            '<p><strong>Improvements</strong></p>' +
+            '<ul>' + summaryHtml + '</ul>' +
+            '<p><strong>Updated GitHub files</strong></p>' +
+            '<ul>' + filesHtml + '</ul>';
+
+        toggle.onclick = function () {
+            var isHidden = panel.className.indexOf('hidden') !== -1;
+            if (isHidden) {
+                panel.className = panel.className.replace(/\bhidden\b/g, '').trim();
+                toggle.setAttribute('aria-expanded', 'true');
+            } else {
+                panel.className = (panel.className + ' hidden').replace(/\s+/g, ' ').trim();
+                toggle.setAttribute('aria-expanded', 'false');
+            }
+        };
     }
 
     function init() {
+        renderReleaseNotes();
         renderLoading('Checking session...');
 
         request('/api/me')
